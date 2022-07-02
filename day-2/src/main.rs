@@ -1,33 +1,26 @@
 use rand::distributions::{Distribution, Uniform};
 use std::io::{stdin, stdout, Write};
-
 fn main() {
     print_options();
 
     let mut rng = rand::thread_rng();
 
-    let s = read_num();
-
     let x: Uniform<i32> = Uniform::from(1..4);
     let guess = x.sample(&mut rng);
-    //println!("generated {} input {}", num_to_str(guess), num_to_str(s));
 
-    win_conditions(s, guess)
-}
+    let mut num = 0;
 
-fn print_options() {
-    println!("1) rock");
-    println!("2) paper");
-    println!("3) sissors");
-}
-
-fn num_to_str(number: i32) -> &'static str {
-    match number {
-        1 => "rock",
-        2 => "paper",
-        3 => "sissors",
-        _ => "invalid",
+    while num == 0 {
+        print!("> ");
+        let n = read_num();
+        if n != 0 && n < 4 {
+            num = n;
+        } else {
+            println!("input failed try again");
+        }
     }
+
+    win_conditions(num, guess)
 }
 
 fn read_num() -> i32 {
@@ -43,6 +36,21 @@ fn read_num() -> i32 {
         }
     };
     s
+}
+
+fn print_options() {
+    println!("1) rock");
+    println!("2) paper");
+    println!("3) sissors");
+}
+
+fn num_to_str(number: i32) -> &'static str {
+    match number {
+        1 => "rock",
+        2 => "paper",
+        3 => "sissors",
+        _ => "invalid",
+    }
 }
 
 fn win_conditions(user: i32, computer: i32) {
